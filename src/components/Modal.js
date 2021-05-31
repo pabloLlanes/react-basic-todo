@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
 const Modal = ({
@@ -10,10 +9,9 @@ const Modal = ({
   task,
   setTask,
 }) => {
-  const [state, setstate] = useState();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
+    console.log();
     setTask({
       ...task,
       [name]: value,
@@ -36,8 +34,10 @@ const Modal = ({
     e.preventDefault();
 
     //const dateTime = getDate();
-    addTodo({ ...task, id: nanoid(), time: getDate(), enable: true });
+    addTodo({ ...task, id: nanoid(), time: getDate() });
     //setTask({});
+    setTask({ name: "", description: "" });
+
     setModalOption(false);
   };
 
@@ -45,6 +45,7 @@ const Modal = ({
     e.preventDefault();
 
     setTask({ ...task, name: task.name });
+
     editTodo(task);
     setTask({ name: "", description: "" });
     setModalOption(false);
@@ -56,8 +57,10 @@ const Modal = ({
       {" "}
       <div class="flex flex-col p-4 items-center justify-center  select-none">
         <div class="bg-white px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-xl shadow-2xl w-full max-w-md  border-l-8  border-purple-600">
-          {statusEdit ? <h2> EDIT</h2> : <h2>ADD </h2>}
-
+          <h2 className="text-xl text-center">
+            {" "}
+            {statusEdit ? "EDIT" : "ADD"}{" "}
+          </h2>
           <form onSubmit={statusEdit ? handleEditSubmit : handleAddSubmit}>
             <div class=" w-full  mb-3">
               <label>name</label>
@@ -83,11 +86,38 @@ const Modal = ({
                 value={task.description}
               />
             </div>
-            {statusEdit ? (
-              <button type="submit"> Editar</button>
-            ) : (
-              <button type="submit"> Agregar</button>
-            )}
+            <div class=" w-full  mb-3">
+              <label> priority </label>
+              <select
+                className=" rounded-lg  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-300 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                onChange={handleInputChange}
+                name="priority"
+                value={task.priority}
+              >
+                <option value="low" className="bg-green-500 text-white">
+                  1️⃣ low
+                </option>
+                <option value="medium" className="bg-yellow-300 ">
+                  2️⃣ medium
+                </option>
+                <option value="hight" className="bg-red-300">
+                  3️⃣ hight
+                </option>
+                <option value="red alert" className="bg-red-700 text-white">
+                  4️⃣ red alert
+                </option>
+              </select>
+            </div>
+
+            <div className="flex justify-end text-white">
+              <button
+                type="submit"
+                className="rounded-full w-24 h-12 mt-4 bg-purple-600"
+              >
+                {" "}
+                {statusEdit ? "edit" : "add"}
+              </button>
+            </div>
           </form>
         </div>
       </div>

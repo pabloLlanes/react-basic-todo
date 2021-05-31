@@ -1,6 +1,6 @@
 import Todo from "./Todo";
 
-const Todos = ({ todos, deleteTodo, edit, toggleEnable }) => {
+const Todos = ({ todos, deleteTodo, edit, toggleIsCompleted }) => {
   return (
     <div>
       <div class="todos-container">
@@ -10,7 +10,7 @@ const Todos = ({ todos, deleteTodo, edit, toggleEnable }) => {
             {...todo}
             deleteTodo={deleteTodo}
             edit={edit}
-            toggleEnable={toggleEnable}
+            toggleIsCompleted={toggleIsCompleted}
           />
         ))}
       </div>

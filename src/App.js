@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import Modal from "./components/Modal";
 
@@ -8,38 +8,33 @@ function App() {
     {
       id: 1,
       name: "comer ",
-      description: "a comerla toda",
+      description: "hay que almorzar",
       time: "",
-      priority: "5",
-      enable: true,
+      priority: "low",
+      isCompleted: false,
     },
     {
       id: 2,
-      name: "volar",
-      description: "vuela vuela  ",
+      name: "estudiar",
+      description: "hay que estudiar vaguito ",
       time: "",
-      priority: "3",
-      enable: true,
-    },
-    {
-      id: 3,
-      name: "correr",
-      description: "running..........",
-      time: "",
-      priority: "1",
-      enable: true,
+      priority: "red alert",
+      isCompleted: false,
     },
   ];
+
   const [todos, setTodos] = useState(initial);
   const [modalOption, setModalOption] = useState(false);
   const [statusEdit, setStatusEdit] = useState(false);
+  const [countLessTask, setCountLessTask] = useState(0);
+
   const [task, setTask] = useState({
     id: "",
     name: "",
     description: "",
     time: "",
-    priority: "",
-    enable: true,
+    priority: "low",
+    isCompleted: false,
   });
   //open modal
   const openModal = () => {
@@ -62,10 +57,11 @@ function App() {
     setTask(obj);
   };
 
-  const toggleEnable = (id) => {
+  //change task status
+  const toggleIsCompleted = (id) => {
     const newTodos = [...todos].map((todo) => {
       if (todo.id === id) {
-        todo.enable = !todo.enable;
+        todo.isCompleted = !todo.isCompleted;
       }
       return todo;
     });
@@ -86,21 +82,34 @@ function App() {
     setTodos(newTodos);
   };
 
+  //count completed task todo
+
+  const checkIsCompleted = todos.filter((task) => task.isCompleted === true);
+
+  useEffect(() => {
+    setCountLessTask(checkIsCompleted.length);
+  }, [todos]);
+
   return (
     <div className="App ">
       <div className="flex text-white justify-center items-center gap-4 w-full h-24 bg-black">
-        <p> new task</p>
-
         {!modalOption && (
-          <button
-            onClick={openModal}
-            className=" h-12 w-12 rounded-full bg-green-300"
-          >
-            ➕
-          </button>
+          <div className="flex gap-4 items-center">
+            <p> new task</p>
+
+            <button
+              onClick={openModal}
+              className=" h-12 w-12 rounded-full bg-green-300"
+            >
+              ➕
+            </button>
+          </div>
         )}
 
-        <p>task: {todos.length}</p>
+        <p>
+          {" "}
+          completed tasks: {countLessTask} of {todos.length}{" "}
+        </p>
       </div>
 
       {modalOption ? (
@@ -118,7 +127,7 @@ function App() {
           todos={todos}
           setModalOption={setModalOption}
           edit={edit}
-          toggleEnable={toggleEnable}
+          toggleIsCompleted={toggleIsCompleted}
           deleteTodo={deleteTodo}
         />
       )}
