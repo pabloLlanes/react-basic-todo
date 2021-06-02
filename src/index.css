@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-.todos-container {
-  @apply flex flex-wrap px-4 gap-4 items-center justify-center select-none;
+.bg-bg {
+  background-image: linear-gradient(
+    to right top,
+    #5e6074,
+    #717287,
+    #85859a,
+    #9a99ae,
+    #afadc2,
+    #a8abc1,
+    #a1a9bf,
+    #99a7bd,
+    #748fa2,
+    #517885,
+    #316066,
+    #164946
+  );
+  /*   height: 100%; */
 }

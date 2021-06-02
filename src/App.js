@@ -1,27 +1,10 @@
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import Modal from "./components/Modal";
+import { initial, freeVersion } from "./utils/utils";
 
 function App() {
-  //initital state for todos
-  const initial = [
-    {
-      id: 1,
-      name: "comer ",
-      description: "hay que almorzar",
-      time: "",
-      priority: "low",
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      name: "estudiar",
-      description: "hay que estudiar vaguito ",
-      time: "",
-      priority: "red alert",
-      isCompleted: false,
-    },
-  ];
+  //initial state for todos
 
   const [todos, setTodos] = useState(initial);
   const [modalOption, setModalOption] = useState(false);
@@ -33,7 +16,7 @@ function App() {
     name: "",
     description: "",
     time: "",
-    priority: "low",
+    priority: "",
     isCompleted: false,
   });
   //open modal
@@ -43,10 +26,12 @@ function App() {
 
   //add todo
   const addTodo = (obj) => {
-    if (todos.length < 10) {
+    if (todos.length < freeVersion) {
       setTodos([...todos, obj]);
     } else {
-      alert("free version permit 10 todos");
+      alert(
+        "the free version support 10 tasks only . thank for visit the site and test  app!"
+      );
     }
   };
 
@@ -83,7 +68,6 @@ function App() {
   };
 
   //count completed task todo
-
   const checkIsCompleted = todos.filter((task) => task.isCompleted === true);
 
   useEffect(() => {
@@ -91,8 +75,8 @@ function App() {
   }, [todos]);
 
   return (
-    <div className="App ">
-      <div className="flex text-white justify-center items-center gap-4 w-full h-24 bg-black">
+    <div className="App bg-bg h-full min-h-screen">
+      <div className="flex flex-wrap text-white justify-center items-center gap-4 w-full h-24 bg-black">
         {!modalOption && (
           <div className="flex gap-4 items-center">
             <p> new task</p>
@@ -106,7 +90,7 @@ function App() {
           </div>
         )}
 
-        <p>
+        <p className="bg-purple-600 py-2 px-4 rounded-2xl">
           {" "}
           completed tasks: {countLessTask} of {todos.length}{" "}
         </p>
